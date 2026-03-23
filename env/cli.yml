@@ -1,0 +1,19 @@
+# ==================================================
+# @file env/cli.yml
+# @brief Conda environment for CLI tools
+# ==================================================
+
+name: cli
+channels:
+  - conda-forge
+dependencies:
+  - fd-find
+  - fzf
+  - gh
+  - git
+  - git-delta
+  - go-ghq
+  - lazygit
+  - ripgrep
+  - stow
+  - zsh
