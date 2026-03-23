@@ -1,0 +1,15 @@
+# ==================================================
+# @file lazygit/config.yml
+# @brief Lazygit configuration file
+# ==================================================
+
+gui:
+  showFileTree: true
+  showIcons: true
+  showRandomTip: false
+  showCommandLog: true
+
+git:
+  pagers:
+    - pager: delta --dark --paging=never --side-by-side --line-numbers
+      colorArg: always

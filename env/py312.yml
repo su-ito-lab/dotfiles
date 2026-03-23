@@ -1,0 +1,10 @@
+# ==================================================
+# @file env/py312.yml
+# @brief Conda environment for Python 3.12
+# ==================================================
+
+name: py312
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12

@@ -1,0 +1,29 @@
+# ==================================================
+# @file .gitconfig
+# @brief Git configuration file
+# ==================================================
+
+[init]
+	defaultBranch = main
+
+[ghq]
+	root = ~/src
+
+[merge]
+	conflictStyle = zdiff3
+
+[core]
+	pager = delta
+
+[delta]
+	dark = true
+	navigate = true
+	features = line-numbers
+	keep-plus-minus-markers = true
+	side-by-side = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[include]
+	path = ~/.gitconfig.local

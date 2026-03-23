@@ -1,0 +1,15 @@
+# ==================================================
+# @file .condarc
+# @brief Conda configuration file
+# ==================================================
+
+channels:
+  - conda-forge
+
+default_channels: []
+
+channel_priority: strict
+show_channel_urls: true
+auto_activate_base: false
+solver: libmamba
+safety_checks: enabled
