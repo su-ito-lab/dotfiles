@@ -43,9 +43,8 @@ alias l='ls -CF'
 # grep
 alias grep='grep --color=auto'
 
-# vim
-alias vi='vim'
-alias view='vim -R'
+# nvim
+alias view='nvim -R'
 
 # disk
 alias df='df -h'
@@ -126,22 +125,18 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 # --------------------------------------------------
 
 # fzf
-if [[ -f "$CLI_PREFIX/share/fzf/key-bindings.zsh" ]]; then
-	source "$CLI_PREFIX/share/fzf/key-bindings.zsh"
+if [[ -f "$HOME/.fzf.zsh" ]]; then
+	source "$HOME/.fzf.zsh"
 fi
 
-if [[ -f "$CLI_PREFIX/share/fzf/completion.zsh" ]]; then
-	source "$CLI_PREFIX/share/fzf/completion.zsh"
+# oh-my-posh
+if command -v oh-my-posh >/dev/null 2>&1; then
+	eval "$(oh-my-posh init zsh --config "$HOME/.config/oh-my-posh/themes/dark-dimmed.omp.json")"
 fi
 
 # zsh-autosuggestions
 if [[ -f "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
 	source "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
-fi
-
-# oh-my-posh
-if command -v oh-my-posh >/dev/null 2>&1 && [[ -f "$HOME/.config/oh-my-posh/themes/dark-dimmed.omp.json" ]]; then
-	eval "$(oh-my-posh init zsh --config "$HOME/.config/oh-my-posh/themes/dark-dimmed.omp.json")"
 fi
 
 # zsh-syntax-highlighting

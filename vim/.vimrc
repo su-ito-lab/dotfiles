@@ -65,6 +65,15 @@ if has('termguicolors')
     set termguicolors
 endif
 set nolist
+set background=dark
+let g:github_colors_soft = 1
+colorscheme github
+highlight Normal       ctermbg=NONE guibg=NONE
+highlight NonText      ctermbg=NONE guibg=NONE
+highlight LineNr       ctermbg=NONE guibg=NONE
+highlight EndOfBuffer  ctermbg=NONE guibg=NONE
+highlight Folded       ctermbg=NONE guibg=NONE
+highlight CursorLine   ctermbg=NONE guibg=NONE
 
 " --------------------------------------------------
 " window
