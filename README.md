@@ -6,10 +6,10 @@
 [![No sudo](https://img.shields.io/badge/sudo-not%20required-important)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-## Overview
+## ✨ Overview
 
 本リポジトリは、制約のあるCADサーバ環境において  
-ユーザ権限のみで開発環境を構築・改善するための dotfiles です。
+**ユーザ権限のみで開発環境を構築・改善するための dotfiles** です。
 
 以下のような課題を解決することを目的としています：
 
@@ -24,8 +24,6 @@
 - 開発支援 CLI ツール群（Git, fzf, gh, ghq, Lazygit, Delta など）
 - 新しい Python 実行環境（Python 3.12）
 
-## Design
-
 本リポジトリは以下の方針で設計しています：
 
 - **既存の CAD 環境を壊さない**
@@ -35,177 +33,82 @@
 - **再現可能な環境構築**
   - 設定・環境定義・スクリプトを分離して管理
 
-## Architecture
+## 🚀 Getting Started
+
+以下を実行すると、環境構築が自動で行われます：
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/su-ito-lab/dotfiles/main/scripts/bootstrap.sh)"
+source ~/.cshrc
+```
+
+### 🔄 更新（再実行）
+
+```bash
+cd ~/src/github.com/su-ito-lab/dotfiles
+bash scripts/setup.sh
+```
+
+## 🏗 Architecture
 
 ```mermaid
 flowchart LR
-    A[csh login] --> B[.cshrc]
-    B --> C[Host-specific CAD setup]
-    C --> D[exec zsh]
-
-    D --> E[.zshrc]
-
-    subgraph User_Environment
-        F[CLI tools: git, fzf, gh, lazygit]
-        G[Python env: conda]
-    end
-
-    E --> F
-    E --> G
-
-    subgraph C_shell_phase
-        A
-        B
-        C
-    end
-
-    subgraph Z_shell_phase
-        D
-        E
-    end
+  A[csh login] --> B[.cshrc]
+  B --> C[Host-specific CAD setup]
+  C --> D[exec zsh]
+  D --> E[.zshrc]
+  E --> F
+  E --> G
+  subgraph C_shell
+      A
+      B
+      C
+  end
+  subgraph Z_shell
+      D
+      E
+  end
+  subgraph User_Environment
+      F[CLI tools]
+      G[Python env]
+  end
 ```
 
-### Shell bootstrap flow
-
-1. csh が起動
-2. `.cshrc` により CADツール設定を読み込み
-3. 利用可能であれば zsh に `exec` で切り替え
-4. `.zshrc` によりユーザ環境を初期化
-
-この構成により、
-
-- CAD環境との互換性を維持
-- 日常作業はモダンなシェルで実行
-
-を両立しています。
-
-## Directory Structure
+## 📁 Directory Structure
 
 ```
 dotfiles/
 ├── csh/
-│   ├── .cshrc                  # CAD 設定読み込み + zsh bootstrap
+│   └── .cshrc
 ├── zsh/
-│   ├── .zshrc                  # メインシェル設定
-│   └── .zsh/plugins/           # プラグイン配置ディレクトリ（実体はスクリプトで取得）
+│   ├── .zshrc
+│   └── .zsh/plugins/
 ├── git/
-│   └── .gitconfig              # Git 共通設定（ユーザ情報は ~/.gitconfig.local へ）
+│   ├── .gitconfig
+│   └── .gitconfig.local.example
 ├── gh/
-│   └── .config/gh/             # GitHub CLI 設定
+│   └── .config/gh/
 ├── lazygit/
 │   └── .config/lazygit/
+├── nvim/
+│   └── .config/nvim/
 ├── vim/
 │   └── .vimrc
 ├── oh-my-posh/
-│   └── .config/oh-my-posh/themes/
+│   └── .config/oh-my-posh/
 ├── conda/
 │   └── .condarc
 ├── env/
-│   ├── cli.yml                 # CLI ツール用環境
-│   └── py312.yml               # Python 3.12 環境
+│   ├── cli.yml
+│   └── py312.yml
 ├── scripts/
-│   └── setup_zsh_plugins.sh    # zsh プラグインの取得
-└── .gitignore
+│   ├── bootstrap.sh
+│   └── setup.sh
+├── README.md
+└── LICENSE
 ```
 
-## Getting Started
-
-### 1. Install Miniconda
-
-ユーザ領域に Miniconda をインストールします。
-
-```csh
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-source ~/miniconda3/etc/profile.d/conda.sh
-```
-
-### 2. Install Git (via conda)
-
-Git が未導入のため、conda 環境に Git を導入します。
-
-```csh
-conda create -n cli -c conda-forge git -y
-conda activate cli
-```
-
-### 3. Clone this repository
-
-本リポジトリを取得します。
-
-```csh
-git clone https://github.com/su-ito-lab/dotfiles.git
-cd dotfiles
-```
-
-### 4. Create environments
-
-CLIツールおよび Python 環境を構築します。
-
-```csh
-conda activate cli
-conda env update -n cli -f env/cli.yml
-conda env create -f env/py312.yml
-```
-
-### 5. Backup existing dotfiles (if any)
-
-既存設定との競合を避けるため、必要に応じてバックアップを作成します。
-
-```csh
-mkdir -p ~/.bak
-mv ~/.cshrc ~/.bak/ 2>/dev/null || true
-mv ~/.zshrc ~/.bak/ 2>/dev/null || true
-mv ~/.vimrc ~/.bak/ 2>/dev/null || true
-mv ~/.gitconfig ~/.bak/ 2>/dev/null || true
-```
-
-### 6. Deploy dotfiles
-
-stow を用いてホームディレクトリにシンボリックリンクを作成します。
-
-```csh
-stow -vt ~ csh zsh git gh lazygit vim oh-my-posh conda
-```
-
-### 7. Configure Git user info
-
-Git のユーザ情報をローカル設定として登録します。
-
-```csh
-cp git/.gitconfig.local.example ~/.gitconfig.local
-```
-
-```
-# Edit ~/.gitconfig.local
-
-[user]
-	name = your_name
-	email = your.email@example.com
-```
-
-### 8. Install zsh plugins
-
-zsh の外部プラグインをインストールします。
-
-```csh
-bash scripts/setup_zsh_plugins.sh
-```
-
-### 9. Restart shell
-
-シェルを再読み込みします。
-
-```csh
-source ~/.cshrc
-```
-
-## Future Work
-
-- セットアップの自動化
-- Neovim 環境の整備
-
-## License
+## 📄 License
 
 MIT License
 
