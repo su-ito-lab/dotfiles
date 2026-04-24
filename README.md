@@ -37,14 +37,15 @@
 
 以下を実行すると、環境構築が自動で行われます：
 
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/su-ito-lab/dotfiles/main/scripts/bootstrap.sh)"
+```csh
+bash -c "curl -fsSL https://raw.githubusercontent.com/su-ito-lab/dotfiles/main/scripts/bootstrap.sh | bash"
 source ~/.cshrc
+rehash
 ```
 
 ### 🔄 更新（再実行）
 
-```bash
+```zsh
 cd ~/src/github.com/su-ito-lab/dotfiles
 bash scripts/setup.sh
 ```
